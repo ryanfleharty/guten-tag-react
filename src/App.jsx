@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import AuthGateway from './AuthGateway/AuthGateway';
+import PostsContainer from './PostsContainer/PostsContainer';
 
 class App extends React.Component {
     constructor(){
@@ -33,7 +34,10 @@ class App extends React.Component {
     render(){
         return (
             <div className="App">
-                { this.state.loggedIn ? null : <AuthGateway handleRegister={this.handleRegister}></AuthGateway>}
+                { this.state.loggedIn ? 
+                    <PostsContainer></PostsContainer> 
+                    : 
+                    <AuthGateway handleRegister={this.handleRegister}></AuthGateway>}
                 
             </div>
           );
