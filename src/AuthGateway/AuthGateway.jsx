@@ -20,7 +20,7 @@ class AuthGateway extends Component{
                 { this.state.login ?
                 <Login toggleLogin={this.toggleLogin}></Login>
             :
-                <Register toggleLogin={this.toggleLogin}></Register>}
+                <Register handleRegister={this.props.handleRegister} toggleLogin={this.toggleLogin}></Register>}
             </div>
         )
     }

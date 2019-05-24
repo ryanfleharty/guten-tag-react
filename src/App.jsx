@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import AuthGateway from './AuthGateway/AuthGateway';
 
@@ -11,10 +10,31 @@ class App extends React.Component {
             username: null
         }
     }
+    handleRegister = async (formData) => {
+        console.log(formData);
+        const response = await fetch("http://localhost:8080/users", {
+            method: "POST",
+            body: JSON.stringify(formData),
+            headers: {
+                "Content-Type": "application/json"
+            },
+            credentials: "include"
+        })
+        console.log(response);
+        const parsedResponse = await response.json();
+        console.log(parsedResponse);
+        if(response.status === 200){
+            this.setState({
+                username: parsedResponse.username,
+                loggedIn: true
+            })
+        }
+    }
     render(){
         return (
             <div className="App">
-                <AuthGateway></AuthGateway>
+                { this.state.loggedIn ? null : <AuthGateway handleRegister={this.handleRegister}></AuthGateway>}
+                
             </div>
           );
     }
