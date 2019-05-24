@@ -1,9 +1,21 @@
-import React from 'react';
+import React, {useState} from 'react';
 
-function Login(props){
+function Login({toggleLogin, handleLogin}){
+
+    const [username, setUsername] = useState(null);
+    const [password, setPassword] = useState(null);
+
     return (
         <div>
-            <button onClick={props.toggleLogin}>New User? Register</button>
+            <button onClick={toggleLogin}>New User? Register</button>
+            <form onSubmit={(e)=>{
+                e.preventDefault();
+                handleLogin({username, password});
+            }}>
+                <input type="text" onChange={e => setUsername(e.target.value)}/>
+                <input type="password" onChange={e => setPassword(e.target.value)}/>
+                <input type="submit" value="Login"/>
+            </form>
         </div>
     )
 }

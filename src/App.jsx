@@ -31,13 +31,32 @@ class App extends React.Component {
             })
         }
     }
+    handleLogin = async (formData) => {
+        const response = await fetch("http://localhost:8080/login", {
+            method: "POST",
+            body: JSON.stringify(formData),
+            headers: {
+                "Content-Type": "application/json"
+            },
+            credentials: "include"
+        })
+        console.log(response);
+        const parsedResponse = await response.json();
+        console.log(parsedResponse);
+        if(response.status === 200){
+            this.setState({
+                username: parsedResponse.username,
+                loggedIn: true
+            })
+        }
+    }
     render(){
         return (
             <div className="App">
                 { this.state.loggedIn ? 
                     <PostsContainer></PostsContainer> 
                     : 
-                    <AuthGateway handleRegister={this.handleRegister}></AuthGateway>}
+                    <AuthGateway handleLogin={this.handleLogin} handleRegister={this.handleRegister}></AuthGateway>}
                 
             </div>
           );

@@ -18,7 +18,7 @@ class AuthGateway extends Component{
         return(
             <div>
                 { this.state.login ?
-                <Login toggleLogin={this.toggleLogin}></Login>
+                <Login handleLogin={this.props.handleLogin} toggleLogin={this.toggleLogin}></Login>
             :
                 <Register handleRegister={this.props.handleRegister} toggleLogin={this.toggleLogin}></Register>}
             </div>
