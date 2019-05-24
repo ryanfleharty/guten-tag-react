@@ -1,52 +1,19 @@
-import React, {Component} from 'react';
+import React, {useState, useEffect} from 'react';
 import NewPost from './NewPost/NewPost';
+import {getPosts, createPost} from './PostService';
 
-class PostsContainer extends Component{
-    constructor(){
-        super();
-        this.state = {
-            posts: []
-        }
-    }
-    componentDidMount(){
-        this.getPosts();
-    }
-    getPosts = async () => {
-        const response = await fetch("http://localhost:8080/posts", {
-            credentials: "include"
-        })
-        const parsedResponse = await response.json();
-        console.log(parsedResponse);
-        this.setState({
-            posts: parsedResponse
-        })
-    }
-    createPost = async (formData) => {
-        const response = await fetch("http://localhost:8080/posts", {
-            method: "POST",
-            credentials: "include",
-            body: JSON.stringify(formData),
-            headers: {
-                "Content-Type": "application/json"
-            }
-        })
-        const parsedResponse = await response.json();
-        console.log(parsedResponse);
-        this.setState({
-            posts: [...this.state.posts, parsedResponse]
-        })
-    }
-    render(){
-        const posts = this.state.posts.map((post)=>{
-            return <p key={post.id}>{post.user.username} says {post.text}</p>
-        })
-        return(
-            <div>
-                <NewPost createPost={this.createPost}></NewPost>
-                {posts}
-            </div>
-        )
-    }
+function PostsContainer(){
+    const [posts, setPosts] = useState([])
+    useEffect(()=>{getPosts(setPosts)}, [])
+    const postsList = posts.map((post)=>{
+        return <p key={post.id}>{post.user.username} says {post.text}</p>
+    })
+    return(
+        <>
+            <NewPost createPost={createPost} setPosts={setPosts}></NewPost>
+            {postsList}
+        </>
+    )
 }
 
 export default PostsContainer;
